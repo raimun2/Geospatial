@@ -37,7 +37,8 @@ actividad_sp <- sp::SpatialPointsDataFrame(actividad[,c("lng", "lat")], activida
 class(actividad_sp)
 
 plot(actividad_sf)
-plot(actividad_sp)
+
+plot(actividad_sp@coords)
 
 # tipos de datos
 plot(actividad)
@@ -72,7 +73,7 @@ class(actividad_polygon)
 plot(actividad_polygon, col ="black")
 
 ggplot() +
-  geom_sf(data = actividad_polygon, lwd = 8, lineend = "round", aes(fill = 1))
+  geom_sf(data = actividad_polygon, lwd = 3, lineend = "round", aes(fill = 1))
 
 
 # raster imagen
@@ -83,7 +84,6 @@ plot(imagen)
 ggmap::ggmap(imagen)
 
 imagen[1,1]
-
 
 ## cargo imagen satelital
 gee <- read_rds("data/rgee_img.rds")
@@ -103,3 +103,7 @@ metadata <- GPStream::strava_metadata
 
 summary(metadata)
 
+library(googlePolylines)
+decode_poly <- metadata$map.summary_polyline[1] %>% decode() 
+
+plot(decode_poly[[1]])
