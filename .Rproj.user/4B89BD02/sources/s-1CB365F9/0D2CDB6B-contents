@@ -7,6 +7,7 @@ library(tidyverse)
 puntos <- GPStream::strava_streams
 write_rds(puntos, "data/puntos.rds")
 
+puntos <- read_rds("data/puntos.rds")
 
 mean(table(puntos$id))
 
