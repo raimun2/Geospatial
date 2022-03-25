@@ -1,0 +1,70 @@
+library(sf)   
+library(tmap)
+
+
+s.sf <- readr::read_rds("data/s.rds")
+  
+sf_extSoftVersion()[1:3]
+
+st_crs(s.sf)
+
+raster::crs(s.sf)
+
+ 
+# +a         Semimajor radius of the ellipsoid axis
+# +b         Semiminor radius of the ellipsoid axis
+# +datum     Datum name 
+# +ellps     Ellipsoid name 
+# +lat_0     Latitude of origin
+# +lat_1     Latitude of first standard parallel
+# +lat_2     Latitude of second standard parallel
+# +lat_ts    Latitude of true scale
+# +lon_0     Central meridian
+# +over      Allow longitude output outside -180 to 180 range, disables wrapping 
+# +proj      Projection name 
+# +south     Denotes southern hemisphere UTM zone
+# +units     meters, US survey feet, etc.
+# +x_0       False easting
+# +y_0       False northing
+# +zone      UTM zone
+
+
+s.sf2 <- st_set_crs(s.sf, "+proj=robin +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs") 
+
+
+st_crs(s.sf)
+
+# +proj=robin +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs
+# +proj=aea +lat_1=55 +lat_2=65 +lat_0=50 +lon_0=-154 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs
+# +proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs
+# +proj=utm +zone=19 +ellps=GRS80 +datum=NAD83 +units=m +
+
+
+s.sf.gcs <- st_transform(s.sf, "+proj=robin +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
+st_crs(s.sf.gcs)
+
+
+data(World)  
+
+st_crs(World)
+
+World.ae <- st_transform(World, "+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
+
+st_crs(World.ae) 
+
+tm_shape(World.ae) + tm_fill() 
+
+World.aemaine <- st_transform(World, "+proj=aeqd +lat_0=44.5 +lon_0=-69.8 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
+
+tm_shape(World.aemaine) + tm_fill()  
+
+World.robin <- st_transform(World,"+proj=robin +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
+tm_shape(World.robin) + tm_fill()  
+
+World.sin <- st_transform(World,"+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
+tm_shape(World.sin) + tm_fill()  
+
+World.mercator <- st_transform(World,"+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
+tm_shape(World.mercator) + tm_fill()  
+
+# https://proj.org/operations/projections/index.html
