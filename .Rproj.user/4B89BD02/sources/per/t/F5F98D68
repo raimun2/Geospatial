@@ -3,7 +3,7 @@
     "path": "C:/Users/raimundo.sanchez/Dropbox/01.Docencia/geospatial/Ciencia-de-datos-geoespaciales/R/06_mapas_interactivos.R",
     "project_path": "R/06_mapas_interactivos.R",
     "type": "r_source",
-    "hash": "2509477870",
+    "hash": "3875577724",
     "contents": "",
     "dirty": false,
     "created": 1649425539277.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "204,0",
-        "scrollLine": "185"
+        "cursorPosition": "198,80",
+        "scrollLine": "182"
     },
     "folds": "",
-    "lastKnownWriteTime": 1649426175,
+    "lastKnownWriteTime": 1649437176,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1649426175140,
+    "last_content_update": 1649437176,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -205,12 +205,12 @@ widgetframe::frameWidget(ggiraph(code=print(p2)))
 # otras librerias como mapdeck requieren un acceso a su API
 
 # otras herramientas como shiny son mas flexibles pero necesitan ser desarrolladas desde cero
-
-library(shiny)
-ui <- fluidPage(
-  # front end interface
-)
-server <- function(input, output, session) {
-  # back end logic
-}
-shinyApp(ui = ui, server = server)
+# 
+# library(shiny)
+# ui <- fluidPage(
+#   # front end interface
+# )
+# server <- function(input, output, session) {
+#   # back end logic
+# }
+# shinyApp(ui = ui, server = server)
