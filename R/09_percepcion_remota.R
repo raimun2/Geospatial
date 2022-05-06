@@ -1,4 +1,4 @@
-pacman::p_load(raster, mapview)
+pacman::p_load(raster, mapview, sf)
 
 # Cargamos imagen satelital de las condes ----
 LC <- brick("data/OLI_LC.tif")
@@ -70,32 +70,55 @@ plotRGB(LC, r = 6, g = 5, b = 4, stretch = "lin")
 # Análisis de Vegetación Sana (5,6,2)
 plotRGB(LC, r = 5, g = 6, b = 2, stretch = "lin")
 
-# Spoiler de la proxima clase: Indice espectral NDVI ----
+# Exploramos el canal infrarojo
 
-# indice normalizado de vegetacion
-ndvi <- (LC[[5]] - LC[[4]]) / (LC[[4]] + LC[[5]]) 
+# normalizamos los valores del canal 5 (x-mean)/sd
+infrared <- scale(LC[[5]])
 
-# dibujamos el nvdi
-plot(ndvi , main = "NDVI Las Condes")
+# dibujamos el infrarojo
+plot(infrared)
 
-# extraemos zonas con ndvi alto
-vegetacion <- calc(ndvi, fun = function(x) ifelse(x <= 0.3, NA, x))
+# extraemos zonas con infrarojo alto, que aproximan a la vegetacion
+vegetacion <- calc(infrared, fun = function(x) ifelse(x <= 3, NA, x))
 
-pal_green <- colorRampPalette(c("green","springgreen4", "darkgreen"))( 200 )
-plot(vegetacion , main = "NDVI Vegetación Alta", col = pal_green)
+pal_green <- colorRampPalette(c("green","springgreen4", "darkgreen"))
+plot(vegetacion , col = pal_green( 200 ))
 
-## agregar los polígonos de Las Condes
+# pasamos pixeles a poligonos
+poligonos_infrarojo <- rasterToPolygons(vegetacion, digits = 16) %>% st_as_sf()
+plot(poligonos_infrarojo, pal = pal_green)
+
+# veamos que pasa al unirlos
+merged_poligonos_infrarojo <- poligonos_infrarojo  %>% 
+  st_union() %>% # unimos vecinos
+  st_cast("POLYGON")  # aislamos los poligonos resultantes
+
+plot(merged_poligonos_infrarojo, pal = pal_green)
+
+# st_union solo junta las geometrias, para unir los valores hay que ir un paso mas alla
+
+# extraemos los valores del raster original sobre cada poligono resultante y lo guardamos en un df
+vegetacion_poly <- data.frame(vegetacion = raster::extract(vegetacion, 
+                                                           st_as_sf(merged_poligonos_infrarojo), 
+                                                           fun=mean))
+
+# le asignamos al df las geometrias de los poligonos
+st_geometry(vegetacion_poly) <- st_sfc(merged_poligonos_infrarojo)
+
+# visualizamos
+plot(vegetacion_poly, pal = pal_green)
+
+# agregar la frontera de Las Condes
 LasCondes <- sf::st_read("data/LasCondes.shp")
-
-plot(LasCondes$geometry, add = T, )
-
+plot(LasCondes$geometry)
+plot(vegetacion_poly, pal = pal_green, add = TRUE)
 
 # visualizamos en mapa interactivo
-
 mview <- mapview(LasCondes, color = "#05A39B", alpha.region =0)+
-  viewRGB(LC, r = 4, g = 3, b = 2, na.color = "transparent")+
-  mapview(vegetacion, na.color = "transparent", col.regions=pal_green) 
+  viewRGB(LC, r = 4, g = 3, b = 2, na.color = "transparent") +
+  mapview(vegetacion_poly, na.color = "transparent", col.regions = pal_green) 
 mview
+
 # guardamos el mapa como pagina html
 mapshot(x = mview, url = "mapa_veg.html")
 
