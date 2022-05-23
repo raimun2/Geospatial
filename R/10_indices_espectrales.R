@@ -44,6 +44,9 @@ dev.off()
 
 # llamo funciones
 source("R/indices.R")
+veg <- NVDI(l8_img)
+
+plot(veg)
 
 # listo funciones
 funs <- lsf.str()
@@ -88,5 +91,6 @@ analisis_aculeo <- function(anio){
   dev.off()
 }
 
+analisis_aculeo(2014)
 
 purrr::map(2013:2021, analisis_aculeo)
