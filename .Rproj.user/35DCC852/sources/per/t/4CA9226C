@@ -3,7 +3,7 @@
     "path": "C:/Users/raimu/Dropbox/01.Docencia/geospatial/Ciencia-de-datos-geoespaciales/R/10_indices_espectrales.R",
     "project_path": "R/10_indices_espectrales.R",
     "type": "r_source",
-    "hash": "73950463",
+    "hash": "2355051102",
     "contents": "",
     "dirty": false,
     "created": 1652380869626.0,
@@ -13,14 +13,14 @@
         "source_window_id": "",
         "Source": "Source",
         "cursorPosition": "55,0",
-        "scrollLine": "25"
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1652441515,
+    "lastKnownWriteTime": 1652461183,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1652441515592,
+    "last_content_update": 1652461183,
     "read_only": false,
     "read_only_alternatives": []
 }
