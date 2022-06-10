@@ -20,7 +20,8 @@ boxplot(poligonos$Income, horizontal = TRUE)
 # visualizamos graficamente el ingreso
 tm_shape(poligonos) + 
   tm_fill(col="Income", style="quantile", n=8, palette="Greens") +
-  tm_legend(outside=TRUE)
+  tm_legend(outside=TRUE) + 
+  tm_borders()
 
 
 # comparacion de datos reales con datos random
@@ -40,7 +41,7 @@ nb <- poly2nb(poligonos, queen=TRUE)
 lw <- nb2listw(nb, style="W", zero.policy=TRUE)
 
 # calculamos el indice global de moran
-I <- moran(poligonos$Income, lw, length(nb), Szero(lw))[1]
+I <- moran(poligonos$Income, lw, length(nb), Szero(lw))
 I
 
 # calculamos el pvalue del indice
