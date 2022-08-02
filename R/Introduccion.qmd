@@ -1,0 +1,132 @@
+---
+title: "Introduccion"
+author: "Dr Raimundo Sanchez"
+format: revealjs
+editor: visual
+---
+
+## Github
+
+El codigo de esta presentacion estara disponible en el repositorio de github <https://github.com/raimun2/Geospatial>.
+
+## Tidy R
+
+El tidyverse es una coleccion de librerias que buscan simplificar la sintaxis de R para el trabajo con datos
+
+```{r, echo = TRUE}
+# base R
+mean(iris$Sepal.Length)
+
+# tidy R
+library(tidyverse)
+iris %>% 
+  pull(Sepal.Length) %>% 
+  mean()
+
+```
+
+## Crear un objeto espacial
+
+Un objeto se puede crear a partir de coordenadas, y se necesitan librerias que manejen datos espaciales
+
+```{r, echo=TRUE}
+library(sf)
+library(sp)
+
+# coordenadas de la sierra de ramon
+latitudes = c(-33.58, -33.38)
+longitudes <- c(-70.55, -70.4)
+
+spatial_ramon <- SpatialPoints(coords=cbind(longitudes, latitudes), proj4string=CRS("+proj=longlat +datum=WGS84"))
+
+# validamos los limites
+spatial_ramon@bbox
+```
+
+
+## Dibujamos un mapa
+
+Existe una gran variedad de librerias para hacer mapas, una de las mas sencillas es ggmap
+
+```{r, echo=TRUE}
+library(ggmap)
+
+mapa <- get_map(location = spatial_ramon@bbox, maptype = "terrain", zoom = 11)
+
+ggmap(mapa) 
+```
+
+
+## Acceder a data externa
+
+Vamos a trabajar con datos provenientes de diversas fuentes y formatos. Algunas librerias proveen datos de Chile
+
+```{r, echo = TRUE}
+
+library(chilemapas)
+
+poblacion_adulto_mayor_comunas <- censo_2017_comunas %>% 
+  filter(as.integer(edad) >= 14) %>% 
+  group_by(codigo_comuna) %>% 
+  summarise(pob_adulto_mayor = sum(poblacion))
+
+comunas_los_rios <- mapa_comunas %>% 
+  filter(codigo_region == 14) %>% 
+  left_join(
+    codigos_territoriales %>% 
+      select(matches("comuna"))
+  ) %>% 
+  left_join(poblacion_adulto_mayor_comunas)
+
+```
+
+## Acceder a data externa
+
+```{r}
+ggplot(comunas_los_rios) + 
+  geom_sf(aes(fill = pob_adulto_mayor, geometry = geometry)) +
+  geom_sf_label(aes(label = nombre_comuna, geometry = geometry)) +
+  scale_fill_gradientn(colours = rev(c("#DCA761", "#CFB567", "#BFBC71", "#9EA887", "#819897")), 
+                       name = "Poblacion\nadulto mayor") +
+  labs(title = "Poblacion de 65 anios y mas en la Region de los Rios") +
+  theme_minimal(base_size = 13)
+```
+
+## Modelos de elevacion digital
+
+Otros datos externos permiten conocer el relieve de la geografia
+
+```{r, echo = TRUE}
+library(elevatr)
+library(raster)
+
+DEM <- get_elev_raster(spatial_ramon, z = 11)
+
+# dibujamos el DEM
+plot(DEM)
+points(longitudes, latitudes)
+```
+
+## Representacion del relieve
+
+```{r}
+library(ggridges)
+
+n_slices <- 100
+DEM_slices <- DEM[1+0:(n_slices-1)*round(nrow(DEM)/n_slices), , drop=FALSE]
+spdf_ridges <- as(DEM_slices, "SpatialPixelsDataFrame")
+raster_df_ridges <- as.data.frame(spdf_ridges)
+colnames(raster_df_ridges) <- c("ele", "lon", "lat")
+
+ggplot(raster_df_ridges, aes(x = lon, y = lat, group = lat, height = ele)) + 
+  geom_density_ridges(stat = "identity", scale = 20, fill=NA, color = "black") +
+  coord_equal() + 
+  theme_void() +
+  ggtitle("Ridge profile of Sierra de Ramon")+
+  theme(plot.title = element_text(size = 10, face = "bold", hjust = 0.5))
+
+```
+
+
+
+
