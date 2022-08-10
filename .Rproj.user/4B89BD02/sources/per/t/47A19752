@@ -3,7 +3,7 @@
     "path": "C:/Users/raimundo.sanchez/Dropbox/01.Docencia/geospatial/Geospatial_DS/R/02_geospatial_data.R",
     "project_path": "R/02_geospatial_data.R",
     "type": "r_source",
-    "hash": "0",
+    "hash": "911254987",
     "contents": "",
     "dirty": false,
     "created": 1660003419004.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "90,30",
-        "scrollLine": "80"
+        "cursorPosition": "105,0",
+        "scrollLine": "86"
     },
     "folds": "",
-    "lastKnownWriteTime": 1660004539,
+    "lastKnownWriteTime": 1660095492,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1660004539405,
+    "last_content_update": 1660095492846,
     "read_only": false,
     "read_only_alternatives": []
 }

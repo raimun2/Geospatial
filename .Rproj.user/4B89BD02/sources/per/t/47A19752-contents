@@ -94,14 +94,12 @@ dirs <- c("Cardenal Newman 1480, Las Condes, Chile",
 
 p2 <- geo(dirs, method="arcgis") %>% as_tibble()
 
-p2 %>%  
-  st_as_sf(coords = c("long", "lat")) %>% 
-  mapview::mapview()
 
+# validar la georeferencia
 dirs_rev <- reverse_geocode(p2, lat = lat, long = long,  method = "arcgis")
 
-dirs_rev$diferencias <- mapply(adist, dirs_rev$address...4, dirs_rev$address...1)
 
+dirs_rev$diferencias <- mapply(adist, dirs_rev$address...4, dirs_rev$address...1)
 
 
 direcciones <- read_csv2("data/mediciones.csv")
