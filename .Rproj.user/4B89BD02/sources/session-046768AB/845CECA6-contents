@@ -19,6 +19,9 @@ puntos <- read_rds("data/puntos.rds") %>%
 las_condes <- read_sf("data/MZ_REGION_13.shp") %>% 
   filter(COMUNA %in% c("13114", "13132"))
 
+chilemapas::codigos_territoriales %>% view()
+
+
 # creamos una paleta que nos va a servir para los colores
 pal <- magma(n = length(unique(las_condes$PERSONAS)), direction = -1)
 
