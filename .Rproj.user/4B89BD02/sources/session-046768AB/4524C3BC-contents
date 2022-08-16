@@ -5,12 +5,12 @@ pacman::p_load(tidyverse, ggmap, sp, sf, elevatr, raster, rayshader,
                tmap, mapview, RColorBrewer, viridis, mapdeck)
 
 ## definimos proyeccion segun el formato proj4
-prj_dd <- "+proj=longlat +ellps=WGS84 +datum=WGS84  +no_defs"
+prj_dd = "+proj=longlat +ellps=WGS84 +datum=WGS84  +no_defs"
 
 ## cargamos puntos de datos
 puntos <- read_rds("data/puntos.rds") %>% 
   filter(id == unique(.$id)[20]) %>% 
-  dplyr::select(lng,lat) %>% 
+  select(lng,lat) %>% 
   SpatialPoints(proj4string = CRS(prj_dd)) %>% 
   st_as_sf()
 
