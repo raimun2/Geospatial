@@ -17,16 +17,13 @@ puntos <- read_rds("data/puntos.rds") %>%
 
 ## cargamos archivo shp con poligonos de LasCondes
 las_condes <- read_sf("data/MZ_REGION_13.shp") %>% 
-  filter(COMUNA == "13114")
+  filter(COMUNA %in% c("13114", "13132"))
 
 # creamos una paleta que nos va a servir para los colores
 pal <- magma(n = length(unique(las_condes$PERSONAS)), direction = -1)
 
 
-
-
 # cual es el objetivo de esta visualizacion? -----
-
 
 
 # visualizamos con funcion nativa ----
@@ -63,10 +60,11 @@ ggplot() +
   geom_sf(data = las_condes, aes(fill = PERSONAS), alpha = .5, col = NA) +
   geom_sf(data = puntos, col = "yellow") 
 
+
+
 # obtencion de mapas base -----
 maptype <- 'terrain'
 map <- ggmap::get_stamenmap(bbox, maptype = maptype, zoom=12, source="stamen")
-
 
 # visualizamos utilizando ggmap
 ggmap(map)
@@ -82,10 +80,14 @@ bboxexp[2] <- bboxexp[2]-0.02
 bboxexp[3] <- bboxexp[3]+0.05
 bboxexp[4] <- bboxexp[4]+0.02
 
+map2 <- ggmap::get_stamenmap(bboxexp, maptype = maptype, zoom=12, source="stamen")
+
+ggmap(map2) +
+  geom_point(data=data.frame(st_coordinates(puntos$geometry)), aes(X, Y), col="yellow",size = 2) 
 
 
-
-# mapa base custimozado -----
+# mapa base custiomizado -----
+# uso de rayshader
 
 # paso las elevaciones a matriz
 elev_mat <- raster_to_matrix(elev)
