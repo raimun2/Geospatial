@@ -1,4 +1,5 @@
-pacman::p_load(tidyverse, rgee, sf, raster) 
+pacman::p_load(tidyverse, rgee, sf, raster)
+#ee_install()
 
 ee_Initialize(drive = T)
 
@@ -13,7 +14,7 @@ roi <-
 
 # identifico posibles fechas de imagenes del LS8
 disponible <- ee$ImageCollection('LANDSAT/LC08/C01/T1_TOA')$
-  filterDate('2013-07-01','2013-07-10')$
+  filterDate('2013-07-01','2014-07-10')$
   filterBounds(roi)$
   filterMetadata('CLOUD_COVER','less_than', 5)
 
@@ -44,6 +45,7 @@ dev.off()
 
 # llamo funciones
 source("R/indices.R")
+
 veg <- NVDI(l8_img)
 
 plot(veg)
@@ -60,7 +62,7 @@ for(i in 1:length(funs)){
 # analisis aculeo en el tiempo ----
 analisis_aculeo <- function(anio){
   disponible <- ee$ImageCollection('LANDSAT/LC08/C01/T1_TOA')$
-    filterDate(paste0(anio,'-11-01'),paste0(anio,'-11-30'))$
+    filterDate(paste0(anio,'-07-01'),paste0(anio,'-07-30'))$
     filterBounds(roi)$
     filterMetadata('CLOUD_COVER','less_than', 10)
   
