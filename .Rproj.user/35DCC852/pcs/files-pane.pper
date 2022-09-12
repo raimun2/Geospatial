@@ -1,9 +1,13 @@
 {
     "sortOrder": [
         {
+            "columnIndex": 4,
+            "ascending": false
+        },
+        {
             "columnIndex": 2,
             "ascending": true
         }
     ],
-    "path": "C:/Users/raimu/Dropbox/01.Docencia/04.geospatial_DS_45h/Geospatial_DS/R"
+    "path": "C:/Users/raimu/Dropbox/01.Docencia/04.geospatial_DS_45h/Geospatial_DS/data/landsat8_30m"
 }
