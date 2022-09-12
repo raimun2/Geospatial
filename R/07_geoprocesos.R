@@ -72,9 +72,6 @@ plot(st_centroid(LC_u), add = TRUE, col = 'green')
 plot(st_convex_hull(LC_sub), col ="green")
 plot(LC_sub, add=TRUE)
 
-# circunferencia inscrita
-plot(LC_u)
-plot(st_inscribed_circle(LC_u), add=TRUE)
 
 # interseccion
 LC_inter_buf <- st_intersection(LC_buff[1:4], LC_buff[5:8])
