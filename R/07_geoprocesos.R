@@ -146,8 +146,8 @@ plot(LC_pol2, add=TRUE, col = 1:8)
 # identificamos un objeto raster de la libreria terra
 
 DEM <- 
-  get_elev_raster(LC_sub, z=13) %>% 
-  crop(st_bbox(LC_sub))
+  get_elev_raster(st_transform(LC_sub,"EPSG:3857"), z=13) %>% 
+  crop(st_bbox(st_transform(LC_sub,"EPSG:3857")))
 
 # exploramos su resolucion
 res(DEM)
