@@ -1,26 +1,26 @@
 {
-    "id": "FBE66E43",
-    "path": "C:/Users/raimu/Dropbox/01.Docencia/04.geospatial_DS_45h/Geospatial_DS/R/07_geoprocesos.R",
+    "id": "50D130B8",
+    "path": "C:/Users/raimundo.sanchez/Dropbox/01.Docencia/04.geospatial_DS_45h/Geospatial_DS/R/07_geoprocesos.R",
     "project_path": "R/07_geoprocesos.R",
     "type": "r_source",
-    "hash": "1023657009",
+    "hash": "2169539258",
     "contents": "",
     "dirty": false,
-    "created": 1663009045025.0,
+    "created": 1663080227190.0,
     "source_on_save": false,
     "relative_order": 1,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "149,49",
-        "scrollLine": "133"
+        "cursorPosition": "114,0",
+        "scrollLine": "110"
     },
     "folds": "",
-    "lastKnownWriteTime": 1663016827,
+    "lastKnownWriteTime": 1663080243,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1663016827801,
+    "last_content_update": 1663080243353,
     "read_only": false,
     "read_only_alternatives": []
 }

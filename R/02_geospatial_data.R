@@ -1,5 +1,48 @@
 library(tidyverse)
 
+# transformacion entre tipos de datos
+
+# puntos
+c(1,1) %>% 
+  st_point() %>% 
+  st_cast("MULTIPOINT")
+
+rbind(c(1,1),c(2,2)) %>% 
+  st_multipoint() %>% 
+  st_cast("POINT")
+
+rbind(c(1,1),c(2,2)) %>%   
+  st_multipoint() %>%  
+  list() %>% 
+  st_geometrycollection() 
+
+
+# lineas
+ls <- st_linestring(rbind(c(0,0),c(1,1),c(2,1)))
+mls1 <- st_multilinestring(list(rbind(c(2,2),c(1,3)), rbind(c(0,0),c(1,1),c(2,1))))
+mls2 <- st_multilinestring(list(rbind(c(4,4),c(4,3)), rbind(c(2,2),c(2,1),c(3,1))))
+(sfc <- st_sfc(ls,mls1,mls2))
+st_cast(sfc, "MULTILINESTRING")
+
+# poligonos
+
+
+# multigeometrias
+gc1 <- st_geometrycollection(list(st_linestring(rbind(c(0,0),c(1,1),c(2,1)))))
+gc2 <- st_geometrycollection(list(st_multilinestring(list(rbind(c(2,2),c(1,3)), rbind(c(0,0),c(1,1),c(2,1))))))
+gc3 <- st_geometrycollection(list(st_multilinestring(list(rbind(c(4,4),c(4,3)), rbind(c(2,2),c(2,1),c(3,1))))))
+(sfc <- st_sfc(gc1,gc2,gc3))
+
+# tranformaciones algebraicas
+(p <- st_point(c(0,2)))
+p + 1 # sumo el mismo valor a ambas coordenadas
+p + c(1,2) #sumo diferentes valores por coordenadas
+p + p # sumo 2 veces el mismo vector
+p * p # multiplico cada valor por si mismo
+
+# creo una funcion de rotacion
+
+
 puntos <- read_rds("data/puntos.rds")
 
 mean(table(puntos$id))

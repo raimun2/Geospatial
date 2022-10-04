@@ -111,8 +111,7 @@ plot(st_simplify(LC_sub, dTolerance = 30), add=TRUE, border="green") # 30 m
 LC_seg <- st_segmentize(LC_sub, 10)
 plot(LC_seg)
 
-# generamos linea
-ls <- st_linestring(rbind(c(0,0),c(1,0),c(2,1),c(3,1)))
+
 # segmentamos lineas
 LC_seg2 <- st_segmentize(LC_lin, 2)
 # dibujamos resultados
