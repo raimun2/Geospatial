@@ -6,9 +6,6 @@ options(scipen = 999)
 lc <- read_rds("data/MBHT_LC.rds") 
 
 # extraemos las variables numericas que vamos a estudiar
-# tasa de natalidad
-# tasa de natalidad no caucasica
-# tasa de mortalidad al nacer (sudden infant death)
 lc_vars <- lc %>% select(dim_acc, dim_amb, dim_seg, dim_soc) %>% st_drop_geometry()
 
 # exploramos la distribucion de las variables
