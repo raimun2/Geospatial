@@ -2,11 +2,8 @@
 
 # Cargar Librerias
 pacman::p_load(rgdal, rgeos, stars, spatstat, spdep, sf, raster,
-               spatialreg, tidyverse, vapour, gstat, MASS)
+               spatialreg, tidyverse, gstat, MASS)
 
-# defino CRS que voy a usar
-# crs_utm <-  vapour_srs_wkt("+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
-crs_ll <- vapour_srs_wkt("+proj=longlat +datum=WGS84 +no_defs")
 
 # ***************************
 # Cargar y ordenar datos ----
@@ -40,7 +37,7 @@ mz_lc <- readRDS("data/MBHT_LC.rds") %>%
   rename(CODINE011 = ID_MANZ) %>% 
   left_join(poblacion, by = "CODINE011") %>% 
   left_join(nived, by = "CODINE011") %>%  
-  st_set_crs(crs_utm) %>% 
+  st_set_crs("+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0") %>% 
   mutate(area = st_area(.)/10000,
          densidad = poblacion/area,
          violencia = lengths(st_intersects(geometry, violencia))) 
@@ -78,7 +75,7 @@ image(del_hotspots_2, col = viridis::viridis(100), main='Densidad de Delitos Vio
 
 gs <- gstat(formula = violencia~1, locations = mz_lc)
 
-rast <- raster(mz_lc, res=100)
+rast <- raster(mz_lc, res=30)
 
 idw <- interpolate(rast, gs)
 
@@ -88,11 +85,6 @@ plot(idw, col = viridis::viridis(100), main='Densidad de Delitos KNN')
 # ************
 # Kriging ----
 # ************
-
-
-# manzanas en version puntos
-mz_point <- mz_lc %>%
-  st_centroid()
 
 formMod <- violencia ~ 1
 variog_empirico <- variogram(formMod, mz_point)
@@ -119,16 +111,24 @@ ggplot(data=mz_lc, aes(fill=modelo_krige$var1.pred)) +
 # Regresiones ----
 # ****************
 
+dataviolencia = mz_point %>% 
+  mutate(violencia = ifelse(is.na(violencia),0,violencia)) %>% 
+  drop_na(densidad)
+
+mz_violencia = mz_lc %>% filter(CODINE011 %in% dataviolencia$CODINE011)
+
 # modelo de regresion convencional
-modviol <- lm(violencia ~ log(densidad) + EDUC, data = mz_point)
+modviol <- lm(violencia ~ log(densidad) + EDUC, data = dataviolencia)
 summary(modviol)
 
-dataviolencia = drop_na(mz_point, violencia, densidad)
 
 ## Crear matriz de pesos espaciales
 nb <- nb2listw(neighbours = knn2nb(
   knn = knearneigh(x = dataviolencia, k = 12)), 
   style = "W")
+
+moran.test(modviol$residuals, nb) ## Test Moran residuos
+
 
 # Modelos de regresion espacial
 
@@ -140,19 +140,19 @@ moran.test(fit.errdurb$residuals, nb) ## Test Moran residuos
 
 
 #Lag espacial
-fit.durb <- lagsarlm(violencia ~ log(densidad) + EDUC, data = mz_point,
+fit.durb <- lagsarlm(violencia ~ log(densidad) + EDUC, data = dataviolencia,
                      listw = nb ,type="lag",method="eigen") 
 summary(fit.durb)
 moran.test(fit.durb$residuals, nb)
 
 #Error y Lag espacial
-fit.sac <- sacsarlm(violencia ~ log(densidad) + EDUC, data = mz_point,
+fit.sac <- sacsarlm(violencia ~ log(densidad) + EDUC, data = dataviolencia,
                     listw=nb, type="sac", method="eigen")
 summary(fit.sac)
 moran.test(fit.sac$residuals, nb)
 
-mz_lc <- 
-  mz_lc %>% 
+mz_violencia <- 
+  mz_violencia %>% 
   mutate(reg_lin = predict(modviol), 
          errsar = fitted(fit.errdurb),
          lagsar = fitted(fit.durb),
@@ -160,19 +160,19 @@ mz_lc <-
 
 library(patchwork)
 
-p1 <- ggplot(data=mz_lc) + 
+p1 <- ggplot(data=mz_violencia) + 
   geom_sf(aes(fill=reg_lin)) +
   scale_fill_viridis_c()
 
-p2 <- ggplot(data=mz_lc) + 
+p2 <- ggplot(data=mz_violencia) + 
   geom_sf(aes(fill=errsar)) +
   scale_fill_viridis_c()
 
-p3 <- ggplot(data=mz_lc) + 
+p3 <- ggplot(data=mz_violencia) + 
   geom_sf(aes(fill=lagsar)) +
   scale_fill_viridis_c()
 
-p4 <- ggplot(data=mz_lc) + 
+p4 <- ggplot(data=mz_violencia) + 
   geom_sf(aes(fill=sacsar)) +
   scale_fill_viridis_c()
 
