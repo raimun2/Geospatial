@@ -1,57 +1,49 @@
+# History files
+.Rhistory
+.Rapp.history
 
-.Rproj.user/35DCC852/ctx/ctx-61502/rversion
-.Rproj.user/35DCC852/ctx/ctx-61502/settings
-*.pper
-.Rproj.user/35DCC852/persistent-state
-*.pper
-.Rproj.user/35DCC852/sources/per/t/62067C0B
-*.pper
-.Rproj.user/35DCC852/pcs/files-pane.pper
-.Rproj.user/35DCC852/sources/per/t/62067C0B
-.Rproj.user/35DCC852/sources/per/t/62067C0B-contents
-.Rproj.user/35DCC852/sources/per/t/85B1F53D
-.Rproj.user/35DCC852/sources/prop/0E31B65D
-.Rproj.user/35DCC852/sources/per/t/85B1F53D-contents
-.Rproj.user/35DCC852/sources/per/t/62067C0B-contents
-.Rhistory
-.Rhistory
-*.pper
-.Rhistory
-*.pper
-.Rproj.user/35DCC852/pcs/windowlayoutstate.pper
-.Rproj.user/35DCC852/pcs/files-pane.pper
-.Rproj.user/35DCC852/pcs/windowlayoutstate.pper
-.Rproj.user/35DCC852/sources/per/t/62067C0B
-.Rproj.user/35DCC852/pcs/workbench-pane.pper
-.Rproj.user/4B89BD02/sources/per/t/C3D23D9B
-.Rproj.user/4B89BD02/sources/per/t/C3D23D9B-contents
-.Rproj.user/4B89BD02/sources/prop/51381478
-.Rproj.user/4B89BD02/sources/prop/762488CF
-.Rproj.user/4B89BD02/sources/prop/51381478
-.Rproj.user/35DCC852/sources/prop/6214E48D
-.Rproj.user/35DCC852/sources/prop/8A940B19
-.Rproj.user/35DCC852/sources/prop/CC6A299C
-.Rproj.user/35DCC852/sources/prop/58FF140D
-.Rproj.user/35DCC852/sources/prop/INDEX
-.Rproj.user/4B89BD02/pcs/source-pane.pper
-.Rproj.user/4B89BD02/pcs/workbench-pane.pper
-.Rproj.user/4B89BD02/sources/prop/51381478
-.Rproj.user/4B89BD02/sources/prop/INDEX
-.Rproj.user/shared/notebooks/paths
-*.pper
-.Rproj.user/4B89BD02/sources/per/t/D73636A7-contents
-.Rproj.user/shared/notebooks/paths
-.Rproj.user/4B89BD02/sources/prop/INDEX
-.Rproj.user/4B89BD02/sources/prop/A1849346
-.Rproj.user/4B89BD02/sources/prop/5C7B5319
-.Rproj.user/4B89BD02/sources/per/t/D73636A7-contents
-.Rproj.user/4B89BD02/sources/per/t/D73636A7
-.Rproj.user/4B89BD02/sources/per/t/BC05ACC8-contents
-.Rproj.user/4B89BD02/sources/per/t/BC05ACC8
-.Rproj.user/4B89BD02/sources/per/t/984448F4-contents
-.Rproj.user/4B89BD02/sources/per/t/984448F4
-.Rproj.user/4B89BD02/sources/per/t/50D130B8-contents
-.Rproj.user/4B89BD02/sources/per/t/50D130B8
-.Rproj.user/4B89BD02/pcs/workbench-pane.pper
-.Rproj.user/4B89BD02/pcs/windowlayoutstate.pper
-.Rproj.user/4B89BD02/pcs/source-pane.pper
+# Session Data files
+.RData
+.RDataTmp
+
+# User-specific files
+.Ruserdata
+
+# Example code in package build process
+*-Ex.R
+
+# Output files from R CMD build
+/*.tar.gz
+
+# Output files from R CMD check
+/*.Rcheck/
+
+# RStudio files
+.Rproj.user/
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
+
+# knitr and R markdown default cache directories
+*_cache/
+/cache/
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# R Environment Variables
+.Renviron
+
+# pkgdown site
+docs/
+
+# translation temp files
+po/*~
+
+# RStudio Connect folder
+rsconnect/
